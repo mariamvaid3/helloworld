@@ -1,0 +1,1 @@
+Homework three is about classes and dictionaries that I used on Pycharm and Zybooks. This topic involved me creating sorting lists and frequencies. It also assisted me with making rosters and creating 'online shopping' using Pycharm.
