@@ -1,0 +1,105 @@
+    # part two of project
+        # manufacturer list
+    with open('/Users/mariamvaid/Desktop/ManufacturerList(2).csv') as main:
+        reader = csv.reader(main, delimiter=' ')
+    with open('/Users/mariamvaid/Desktop/PriceList(2).csv') as main2:
+        reader2 = csv.reader(main2, delimiter =' ')
+    with open('/Users/mariamvaid/Desktop/ServiceDatesList(2).csv') as main3:
+        reader3 = csv.reader(main3, delimiter = ' ')
+    types = []
+    manifact = []
+    items = type
+    for iteming in types:
+        check_the_manu = items[iteming]['manufacturing']
+        item_type = items[iteming]['item_type']
+        if check_the_manu not in types:
+            manufacturing.append(check_the_manu)
+        if item_type not in types:
+            item_type.append(item_type)
+    # asking user for input
+    user_input = None
+    while user_input != 'r':
+        user_input = input("\nPlease enter an item manufacturer and item type:")
+        if user_input == 'r':
+            break
+        else:
+    # checking to see if there is a match
+            select_manu = None
+            select_type = None
+            user_input = user_input.split()
+            negative_input = False
+            for letter in user_input:
+                if letter in manifact:
+                    if select_manu:
+                        negative_input = True
+                    else:
+                        selected_manu = letter
+                elif letter in types:
+                        if select_type:
+                            negative_input = True
+                        else:
+                            select_type = letter
+            if not select_manu or not select_type or negative_input:
+                print("No such item in inventory")
+            else:
+                mykeys = sorted(items.keys(), key=lambda r: items[r]['my_price'], reverse=True)
+
+                # matching list of items based on user input
+                match_the_items = []
+
+                # store items with same type but different manufacturer
+                same_items = {}
+                for iteming in mykeys:
+                    if items[iteming]['item_type'] == select_type:
+                        # dont add damaged items or past service
+                        to_day = datetime.now().date()
+                        date_service = items[iteming]['date_service']
+                        expire_service = datetime.strptime(date_service, "%m/%d/%Y").date()
+                        expire = expire_service < to_day
+                        if items[iteming]['manufacturing'] == select_manu:
+                            if not expire and not items[iteming]['item_damaged']:
+                                match_the_items.append((iteming, items[iteming]))
+                        else:
+                            if not expire and not items[iteming]['item_damaged']:
+                                same_items[items] = items[iteming]
+
+                # output items if matched
+                if match_the_items:
+                    item = match_the_items[0]
+                    id_item = item[0]
+                    first_name = item[1]['manufacturing']
+                    item_type = item[1]['item_type']
+                    item_price = item[1]['item_price']
+                    print("Your item is: {}, {}, {}, {}\n,".format(id_item, first_name, item_type, item_price))
+
+                # output items from different manufacturer that is closest in price to matching item
+                if same_items:
+                    match_the_items = myprice
+                    close_item = None
+                    close_price = None
+                    for iteming in same_items:
+                        if close_price == None:
+                            close_item = same_items[iteming]
+                            close_price = abs(int(match_the_items) - int(same_items[iteming]['item_price']))
+                            id_item = items
+                            first_name = same_items[iteming]['manufacturing']
+                            item_type = same_items[iteming]['item_type']
+                            item_price = same_items[iteming]['item_price']
+                            continue
+                        different_price = abs(int(match_the_items) - int(same_items[iteming]['item_price']))
+                        if different_price < close_price:
+                            close_item = items
+                            close_price = different_price
+                            id_item = items
+                            first_name = same_items[iteming]['manufacturing']
+                            item_type = same_items[iteming]['item_type']
+                            item_price = same_items[iteming]['item_price']
+                            print("You may consider: {}, {}, {}, {}\n".format(id_item, first_name,item_type,item_price))
+                else:
+                    print("No such item in inventory")
+
+
+
+
+
+
